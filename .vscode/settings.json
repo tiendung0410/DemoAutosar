@@ -1,0 +1,27 @@
+{
+    "files.associations": {
+        "std_types.h": "c",
+        "dio.h": "c",
+        "dio_cfg.h": "c",
+        "stdio.h": "c",
+        "time.h": "c",
+        "signal.h": "c",
+        "gpt_cbk.h": "c",
+        "gpt_cfg.h": "c",
+        "gpt.h": "c",
+        "stdlib.h": "c",
+        "unistd.h": "c",
+        "dio_types.h": "c",
+        "can_types.h": "c",
+        "com.h": "c",
+        "rte_can.h": "c",
+        "rte_button.h": "c",
+        "rte_types.h": "c",
+        "canif_cfg.h": "c",
+        "canif.h": "c",
+        "string.h": "c",
+        "can.h": "c",
+        "iohwab.h": "c",
+        "os.h": "c"
+    }
+}
