@@ -5,7 +5,7 @@ ButtonStatusInfoType g_ButtonStatusInfo;
 
 
 //---------------API Send Button State and Count to CAN Task----------------
-Rte_Write_PP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo) {
+Std_ReturnType Rte_Write_PP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo) {
     if(buttonInfo) {
         g_ButtonStatusInfo.ButtonState = buttonInfo->ButtonState;
         g_ButtonStatusInfo.ButtonCount = buttonInfo->ButtonCount;

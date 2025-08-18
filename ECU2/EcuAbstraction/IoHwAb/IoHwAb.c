@@ -3,7 +3,7 @@
 #include "Dio.h"
 
 void IoHwAb_Init(void) {
-    Dio_Init(&Dio_Config);
+    //Reserve
 }
 
 Std_ReturnType IoHwAb_Led_Set(IoHwAb_LedIdType id, uint8 level) {

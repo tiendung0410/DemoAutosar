@@ -8,7 +8,7 @@ Std_ReturnType Rte_Write_SigButtonStatusInfo(ButtonStatusInfoType buttonInfo) {
 }
 
 
-Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo)
+Std_ReturnType Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo)
 {
     if (buttonInfo) {
         buttonInfo->ButtonState = g_ButtonStatusInfo.ButtonState;

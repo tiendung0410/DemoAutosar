@@ -2,10 +2,7 @@
 
 #include "App_ButtonTask.h"
 #include "App_CanTask.h"
-#include "App_LedTask.h"
-
 #include "Dio.h"
-#include "Gpt.h"
 #include "Can.h"
 #include "IoHwAb.h"
 #include "CanIf.h"
@@ -14,9 +11,8 @@
 void System_Init(void)
 {
     // MCAL Init
-    Dio_Init();
-    Gpt_Init();
-    Can_Init();
+    Dio_Init(&Dio_Config);
+    Can_Init(&Can_Config);
 
     // Ecu Abstraction/IoHwAb layer
     IoHwAb_Init();

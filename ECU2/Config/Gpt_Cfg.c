@@ -8,7 +8,7 @@ static const Gpt_ChannelConfigType Gpt_ChannelCfgs[] = {
         .channelMode     = GPT_CH_MODE_CONTINUOUS,
         .tickFrequencyHz = 1000u,               /* 1 tick = 1ms */
         .tickMaxValue    = 0xFFFFFFFFu,
-        .notification    = Gpt_Notify_ButtonTick
+        .notification    = Gpt0_Notification
     },
     /* LED blink: one-shot theo yêu cầu */
     {
@@ -16,7 +16,7 @@ static const Gpt_ChannelConfigType Gpt_ChannelCfgs[] = {
         .channelMode     = GPT_CH_MODE_ONESHOT,
         .tickFrequencyHz = 1000u,               /* 1 tick = 1ms */
         .tickMaxValue    = 0xFFFFFFFFu,
-        .notification    = Gpt_Notify_LedBlink
+        .notification    = Gpt1_Notification
     }
 };
 

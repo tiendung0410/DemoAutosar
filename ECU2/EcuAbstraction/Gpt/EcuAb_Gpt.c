@@ -38,8 +38,6 @@ static inline EcuAb_Gpt_TicksType us_to_ticks(uint32_t us, uint32_t hz)
 /* ========= ECUA API ========= */
 void EcuAb_Gpt_Init(void)
 {
-    /* Khởi tạo MCAL GPT với cấu hình toàn cục */
-    Gpt_Init(&Gpt_Config);
 
     /* Bật notification mặc định cho tất cả kênh (app sẽ có thể nhận ngay nếu đăng ký) */
     for (unsigned i=0; i<ECUAB_GPT_MAX_CHANNELS; ++i) {

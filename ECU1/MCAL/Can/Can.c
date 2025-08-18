@@ -15,7 +15,7 @@ static int canSocket[CAN_MAX_CONTROLLER] = { -1 };
 static struct sockaddr_can addr[CAN_MAX_CONTROLLER];
 static struct ifreq ifr[CAN_MAX_CONTROLLER];
 static const Can_ConfigType* Can_ConfigPtr = NULL;
-extern void CanIf_RxIndication(uint8_t Hrh, uint32_t CanId, uint8_t CanDlc, const uint8_t *CanSduPtr);
+extern void CanIf_RxIndication(uint8 Hrh, uint32 CanId, uint8 CanDlc, const uint8 *CanSduPtr);
 
 
 void Can_Init(const Can_ConfigType* Config)
@@ -105,7 +105,7 @@ void Can_MainFunction_Write(void)
 void Can_MainFunction_Read(void)
 {
     struct can_frame frame;
-    for (uint8_t i = 0; i < CAN_MAX_CONTROLLER; i++) {
+    for (uint8 i = 0; i < CAN_MAX_CONTROLLER; i++) {
         if (canSocket[i] < 0) continue;
         int nbytes = read(canSocket[i], &frame, sizeof(frame));
         if (nbytes > 0) {

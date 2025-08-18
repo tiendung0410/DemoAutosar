@@ -1,6 +1,6 @@
 #include "Can_Cfg.h"
 const Can_ControllerConfigType CanControllerConfig_BBB = {
-    .ifName = "can1",
+    .ifName = "can0",
     .ControllerId = 0,
     .Baudrate = 500000
 };

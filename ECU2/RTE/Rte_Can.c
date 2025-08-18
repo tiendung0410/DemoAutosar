@@ -13,8 +13,11 @@ ButtonStatusInfoType g_Rte_ButtonStatusInfo_Buffer;
 Std_ReturnType Rte_Write_PP_ButtonStatusInfo_ButtonStatus(const ButtonStatusInfoType* value)
 {
     // Lưu vào buffer dùng chung cho AppLed đọc lại (giả lập RTE giữa SWC nội bộ)
-    if (value == NULL) return E_NOT_OK;
-    g_Rte_ButtonStatusInfo_Buffer = *value;
-    return E_OK;
+    if(value) {
+        g_Rte_ButtonStatusInfo_Buffer = *value;
+        return E_OK;
+    }
+    // Nếu không có giá trị thì trả lỗi
+    return E_NOT_OK;
 }
 

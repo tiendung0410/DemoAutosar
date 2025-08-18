@@ -3,7 +3,7 @@
 
 #include "Rte_Types.h"
 
-Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo);
+Std_ReturnType Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* buttonInfo);
 
 Std_ReturnType Rte_Write_SigButtonStatusInfo(ButtonStatusInfoType buttonInfo);
 

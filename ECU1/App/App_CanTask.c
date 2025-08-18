@@ -3,7 +3,6 @@
 #include <stdio.h>
 
 void App_CanTask_Init(void) {
-    // Initialize CAN task resources if needed
     // Reserve 
 }
 

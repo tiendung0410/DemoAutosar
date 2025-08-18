@@ -1,6 +1,5 @@
 #include "Rte_Led.h"
 
-ButtonStatusInfoType g_Rte_ButtonStatusInfo_Buffer;
 
 Std_ReturnType Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* value)
 {

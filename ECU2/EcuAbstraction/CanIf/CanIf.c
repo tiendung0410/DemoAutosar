@@ -44,8 +44,8 @@ void CanIf_RxIndication(uint8 Hrh, uint32 CanId, uint8 CanDlc, const uint8 *CanS
             if (RxIndicationCbk) {
                 RxIndicationCbk(CanIf_RxPduConfig[i].pduId, CanSduPtr, CanDlc);
             } else {
-                printf("[CanIf] RX: PDU 0x%X, CANID 0x%X, Len %d (No RxIndicationCbk)\n",
-                    CanIf_RxPduConfig[i].pduId, CanId, CanDlc);
+                // printf("[CanIf] RX: PDU 0x%X, CANID 0x%X, Len %d (No RxIndicationCbk)\n",
+                //     CanIf_RxPduConfig[i].pduId, CanId, CanDlc);
             }
             break;
         }
@@ -57,7 +57,7 @@ void CanIf_TxConfirmation(CanIf_PduIdType TxPduId)
     if (TxConfirmationCbk) {
         TxConfirmationCbk(TxPduId);
     } else {
-        printf("[CanIf] TX Confirm: PDU 0x%X (No TxConfirmationCbk)\n", TxPduId);
+        // printf("[CanIf] TX Confirm: PDU 0x%X (No TxConfirmationCbk)\n", TxPduId);
     }
 }
 

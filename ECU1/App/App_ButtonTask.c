@@ -1,4 +1,5 @@
 #include "App_ButtonTask.h"
+#include "Rte_Types.h"         // Include file RTE chứa các kiểu dữ liệu
 #include "Rte_Button.h"        // Include file RTE chứa API struct
 #include <stdio.h>
 
@@ -25,6 +26,10 @@ void App_ButtonTask_Run(void) {
     // Toggle ON/OFF
     if (systemNow && !prevSystem) {
         systemState ^= 1;
+        if(!systemState)
+        {
+            freqCount=0;
+        }
         printf("System State toggled: %s\n", systemState ? "ON" : "OFF");
     }
     prevSystem = systemNow;

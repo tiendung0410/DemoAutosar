@@ -3,8 +3,8 @@
 
 #include "Std_Types.h"
 
-#define COM_MAX_SIGNALS   1    // 2 signal
-#define COM_MAX_PDU       1    // 1 PDU gửi qua CAN
+#define COM_MAX_SIGNALS   1    
+#define COM_MAX_PDU       1    
 
 typedef uint8 Com_SignalIdType;
 typedef uint8 Com_PduIdType;

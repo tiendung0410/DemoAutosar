@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "can_cfg.h": "c",
+        "can_types.h": "c",
+        "std_types.h": "c"
+    }
+}

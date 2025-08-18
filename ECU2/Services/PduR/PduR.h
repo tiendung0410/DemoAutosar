@@ -5,8 +5,8 @@
 #include "CanIf_Types.h"
 
 // Định nghĩa callback lên App/COM
-typedef void (*PduR_RxIndicationCbkType)(uint32 pduId, const uint8* SduPtr, uint8 length);
-typedef void (*PduR_TxConfirmationCbkType)(uint32 pduId);
+typedef void (*PduR_RxIndicationCbkType)(uint8 pduId, const uint8* SduPtr, uint8 length);
+typedef void (*PduR_TxConfirmationCbkType)(uint8 pduId);
 
 // Đăng ký callback
 void PduR_RegisterRxIndicationCallback(PduR_RxIndicationCbkType cb);

@@ -7,6 +7,8 @@
 #define CAN_DEV_ERROR_DETECT    STD_ON
 #define CAN_MAX_CONTROLLER      1U
 
+typedef uint8 Can_HwHandleType;
+
 typedef struct {
     char ifName[16];         // Interface name (e.g. "can0")
     uint8 ControllerId;

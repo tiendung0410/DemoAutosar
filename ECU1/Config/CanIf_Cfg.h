@@ -5,8 +5,8 @@
 #include "CanIf_Types.h"
 
 #define CANIF_MAX_CHANNELS      1
-#define CANIF_MAX_TX_PDU        1   // Số lượng PDU gửi (có thể tăng)
-#define CANIF_MAX_RX_PDU        1   // Số lượng PDU nhận (có thể tăng)
+#define CANIF_MAX_TX_PDU        1   // Số lượng PDU gửi 
+#define CANIF_MAX_RX_PDU        1   // Số lượng PDU nhận 
 
 // Mapping cấu hình Tx PDU
 typedef struct {
