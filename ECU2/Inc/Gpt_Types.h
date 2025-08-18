@@ -2,7 +2,7 @@
 #define GPT_TYPES_H
 
 #include <stdint.h>
-#include "../Inc/Std_Types.h"   /* boolean, Std_ReturnType, E_OK/E_NOT_OK */
+#include "Std_Types.h"
 
 typedef uint8  Gpt_ChannelType;
 /* Tick counter type (64-bit để đếm dài) */

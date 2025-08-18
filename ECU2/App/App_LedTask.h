@@ -1,9 +1,9 @@
-#ifndef APP_LEDTASK_H
-#define APP_LEDTASK_H
+#ifndef APP_LED_H_
+#define APP_LED_H_
 
-#include "Std_Types.h"
+#include "Rte_Led.h"
 
-void App_LedTask_Init(void);
-void App_LedTask_Run(void);
+void App_Led_Init(void);
+void App_Led_Run(void);
 
-#endif /* APP_LEDTASK_H */
+#endif

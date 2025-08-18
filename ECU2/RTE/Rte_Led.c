@@ -1,12 +1,32 @@
 #include "Rte_Led.h"
-#include "Com.h" // layer trung gian nhận dữ liệu từ CAN
 
-Std_ReturnType Rte_Read_RP_ButtonStateInfo_ButtonState(uint8* state)
+ButtonStatusInfoType g_Rte_ButtonStatusInfo_Buffer;
+
+Std_ReturnType Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* value)
 {
-    return Com_ReceiveSignal(SIGNAL_ID_BUTTON_STATE, state);
+    if (value) 
+    {   
+        *value = g_Rte_ButtonStatusInfo_Buffer;
+        return E_OK;
+    }
+    return E_NOT_OK;
 }
 
-Std_ReturnType Rte_Read_RP_ButtonCountInfo_ButtonCount(uint8* count)
+Std_ReturnType Rte_Call_PP_LedControl_LedSet(IoHwAb_LedIdType id, uint8 level)
 {
-    return Com_ReceiveSignal(SIGNAL_ID_BUTTON_COUNT, count);
+    return IoHwAb_Led_Set(id, level);
+}
+
+// ==== GPT interface for AppLed ====
+void Rte_Call_PP_GptControl_GptStartMs(EcuAb_Gpt_ChannelType ch, uint32_t ms)
+{
+    EcuAb_Gpt_StartMs(ch, ms);
+}
+void Rte_Call_PP_GptControl_GptStop(EcuAb_Gpt_ChannelType ch)
+{
+    EcuAb_Gpt_Stop(ch);
+}
+int Rte_Call_PP_GptControl_GptRegisterCb(EcuAb_Gpt_ChannelType ch, EcuAb_Gpt_AppCbkType cb)
+{
+    return EcuAb_Gpt_RegisterCallback(ch, cb);
 }

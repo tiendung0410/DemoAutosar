@@ -1,6 +1,4 @@
 #include "Can_Cfg.h"
-
-/* Example config for 1 CAN controller, interface can0 */
 const Can_ControllerConfigType CanControllerConfig_BBB = {
     .ifName = "can1",
     .ControllerId = 0,

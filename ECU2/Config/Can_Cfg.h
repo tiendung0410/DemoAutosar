@@ -2,11 +2,10 @@
 #define CAN_CFG_H_
 
 #include "Std_Types.h"
+#include "Can_Types.h" // hoặc chỉ include khi dùng type ở đây
 
 #define CAN_DEV_ERROR_DETECT    STD_ON
 #define CAN_MAX_CONTROLLER      1U
-
-typedef uint8 Can_HwHandleType;
 
 typedef struct {
     char ifName[16];         // Interface name (e.g. "can0")
