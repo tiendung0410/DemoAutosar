@@ -5,16 +5,16 @@
 #include "Std_Types.h"
 
 typedef uint8  Gpt_ChannelType;
-/* Tick counter type (64-bit để đếm dài) */
+/* Tick counter type */
 typedef uint64 Gpt_ValueType;
 
-/* AUTOSAR-like mode of the driver (đơn giản hoá) */
+/* AUTOSAR-like mode of the driver  */
 typedef enum {
     GPT_MODE_NORMAL = 0,
     GPT_MODE_SLEEP
 } Gpt_ModeType;
 
-/* Channel mode: one-shot hay periodic */
+/* Channel mode: one-shot or periodic */
 typedef enum {
     GPT_CH_MODE_CONTINUOUS = 0,
     GPT_CH_MODE_ONESHOT
@@ -27,9 +27,9 @@ typedef void (*Gpt_NotificationType)(void);
 typedef struct {
     Gpt_ChannelType       channelId;
     Gpt_ChannelMode       channelMode;
-    uint32                tickFrequencyHz;     /* tần số tick logic của channel (Hz) */
-    Gpt_ValueType         tickMaxValue;        /* max tick (wrap) */
-    Gpt_NotificationType  notification;        /* callback khi timeout */
+    uint32                tickFrequencyHz;   
+    Gpt_ValueType         tickMaxValue;        
+    Gpt_NotificationType  notification;        /* callback when timeout */
 } Gpt_ChannelConfigType;
 
 /* Top-level config */

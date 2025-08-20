@@ -13,13 +13,13 @@ typedef struct {
 } Dio_LineHandle;
 
 static const Dio_ConfigType* s_cfg = NULL;
-/* Với nhiều chip, cache handle để mở 1 lần */
+
 #define MAX_OPEN_CHIPS 16
 static Dio_ChipHandle s_openChips[MAX_OPEN_CHIPS];
 static char           s_openChipNames[MAX_OPEN_CHIPS][32];
 static uint8          s_numOpenChips = 0;
 
-/* Mảng line đã request theo ChannelId logic */
+/* Line array requested base on ChannelId logic */
 static Dio_LineHandle* s_lines = NULL;
 
 /* ==== Helpers ==== */
@@ -57,7 +57,6 @@ static struct gpiod_line* request_line(const char* chipName, unsigned int offset
 void Dio_Init(const Dio_ConfigType* ConfigPtr) {
   s_cfg = (ConfigPtr != NULL) ? ConfigPtr : &Dio_Config;
 
-  /* Free trước (nếu re-init) */
   if (s_lines) {
     for (uint16 ch=0; ch<s_cfg->NumChannels; ch++) {
       if (s_lines[ch].line) {
@@ -75,7 +74,7 @@ void Dio_Init(const Dio_ConfigType* ConfigPtr) {
   s_numOpenChips = 0;
   memset(s_openChipNames, 0, sizeof(s_openChipNames));
 
-  /* Request các channel */
+  /* Request channels */
   s_lines = (Dio_LineHandle*)calloc(s_cfg->NumChannels, sizeof(Dio_LineHandle));
   for (uint16 ch=0; ch<s_cfg->NumChannels; ch++) {
     const Dio_ChannelCfgType* c = &s_cfg->Channels[ch];
@@ -109,14 +108,13 @@ Dio_LevelType Dio_FlipChannel(Dio_ChannelType ChannelId) {
   return (Dio_LevelType)(nxt ? 1 : 0);
 }
 
-/* === Port operations (giản lược: 1 port gắn vào 1 chip, offsets[] define bit order) === */
+/* === Port operations  === */
 Dio_PortLevelType Dio_ReadPort(Dio_PortType PortId) {
   if (!s_cfg || PortId >= s_cfg->NumPorts) return 0;
   const Dio_PortCfgType* p = &s_cfg->Ports[PortId];
   Dio_PortLevelType v = 0;
   for (uint8 i=0;i<p->length;i++) {
-    /* Tìm ChannelId tương ứng offset này để lấy line đã request */
-    /* Đơn giản: duyệt Channels để match chip/offset (cấu hình nhỏ nên OK) */
+    /* Find ChannelId corresponding to offset to get requested line */
     for (uint16 ch=0; ch<s_cfg->NumChannels; ch++) {
       const Dio_ChannelCfgType* c = &s_cfg->Channels[ch];
       if (strcmp(c->chip, p->chip)==0 && c->offset==p->offsets[i]) {
@@ -152,7 +150,7 @@ void Dio_MaskedWritePort(Dio_PortType PortId, Dio_PortLevelType Level, Dio_PortL
   Dio_WritePort(PortId, newv);
 }
 
-/* === Channel group (mask/offset trên 1 port) === */
+/* === Channel group (mask/offset on 1 port) === */
 Dio_PortLevelType Dio_ReadChannelGroup(const Dio_ChannelGroupType* grp) {
   if (!grp) return 0;
   Dio_PortLevelType portv = Dio_ReadPort(grp->port);

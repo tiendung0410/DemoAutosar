@@ -1,5 +1,4 @@
 #include "OS.h"
-
 #include "App_ButtonTask.h"
 #include "App_CanTask.h"
 #include "Dio.h"
@@ -7,8 +6,6 @@
 #include "IoHwAb.h"
 #include "CanIf.h"
 
-
-// Nếu có config/init riêng cho mỗi module, thêm vào đây
 void System_Init(void)
 {
     // MCAL Init
@@ -24,38 +21,34 @@ void System_Init(void)
     App_CanTask_Init();
 }
 
-// Task cyclic 10ms: chạy các runnable mỗi 10ms
+// Task cyclic 10ms
 void CyclicTask10ms(void* arg)
 {
+    printf("CyclicTask10ms running...\n");
     (void)arg;
     while (1) {
-        // App_ButtonTask_Run();
-        // App_CanTask_Run();
-        // printf("LOG\n");
-        // Os_Sleep(10); // period 10ms
+        App_ButtonTask_Run();
+        App_CanTask_Run();
+        Os_Sleep(100); // period 100ms
     }
 }
 
 
 int main(void)
 {
-    // Init hệ thống
+    // Init system
     System_Init();
 
-    // Khởi tạo các OS task
+    // OS task init
     OsTaskType cyclic10msTask;
 
     Os_CreateTask(&cyclic10msTask, CyclicTask10ms, NULL, 10, "Cyclic10msTask");
-
-    // Start các task
+    // Start  task
     Os_StartTask(&cyclic10msTask);
-
+    printf("===== ECU1 Init Done. =====\n");
     // Main idle loop
     while (1) {
-        App_ButtonTask_Run();
-        App_CanTask_Run();
-
-        Os_Sleep(1000); // sleep lâu, chỉ giữ chương trình không thoát
+        Os_Sleep(1000); 
     }
     return 0;
 }

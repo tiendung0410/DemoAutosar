@@ -3,8 +3,7 @@
 #include "Dio.h"
 
 void IoHwAb_Init(void) {
-    //Reserve space for button configuration
-    
+    //Reserve for future use, currently no initialization needed
 }
 
 Std_ReturnType IoHwAb_Button_Read(IoHwAb_ButtonIdType id, uint8* level) {

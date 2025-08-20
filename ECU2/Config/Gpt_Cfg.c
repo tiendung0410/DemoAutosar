@@ -10,7 +10,7 @@ static const Gpt_ChannelConfigType Gpt_ChannelCfgs[] = {
         .tickMaxValue    = 0xFFFFFFFFu,
         .notification    = Gpt0_Notification
     },
-    /* LED blink: one-shot theo yêu cầu */
+    /* Reserve tick: one-shot theo yêu cầu */
     {
         .channelId       = GPT_CHANNEL_LED,
         .channelMode     = GPT_CH_MODE_ONESHOT,

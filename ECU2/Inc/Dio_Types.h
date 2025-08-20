@@ -3,19 +3,18 @@
 
 #include "Std_Types.h"
 
-/* === Kiểu dữ liệu AUTOSAR === */
-typedef uint16 Dio_ChannelType;        /* ID logic cho 1 line */
-typedef uint16 Dio_PortType;           /* ID logic cho 1 port */
+/* === AUTOSAR Types === */
+typedef uint16 Dio_ChannelType;        /* ID logic for 1 line */
+typedef uint16 Dio_PortType;           /* ID logic for 1 port */
 typedef uint8  Dio_LevelType;          /* STD_LOW(0)/STD_HIGH(1) */
-typedef uint32 Dio_PortLevelType;      /* bitmap các line trong 1 port */
+typedef uint32 Dio_PortLevelType;      /* lines bitmap in 1 port */
 
 typedef struct {
-  uint32 mask;       /* bitmask các channel thuộc group */
-  uint8  offset;     /* bit offset thấp nhất trong group */
+  uint32 mask;       /* channels bitmap in group */
+  uint8  offset;     /* lowest bit offset in group */
   Dio_PortType port; /* port owner */
 } Dio_ChannelGroupType;
 
-/* === Cấu hình binding sang libgpiod === */
 typedef enum {
   DIO_DIRECTION_IN  = 0,
   DIO_DIRECTION_OUT = 1
@@ -23,14 +22,14 @@ typedef enum {
 
 typedef struct {
   const char* chip;          /* "gpiochip0", "gpiochip1", ... */
-  unsigned int offset;       /* gpiod line offset trong chip */
-  Dio_DirectionType dir;     /* IN/OUT để request line */
+  unsigned int offset;       /* gpiod line offset in chip */
+  Dio_DirectionType dir;     /* IN/OUT to request line */
 } Dio_ChannelCfgType;
 
 typedef struct {
-  const char* chip;              /* chip chứa các line của port */
-  const unsigned int* offsets;  /* mảng offset các line theo thứ tự bit */
-  uint8 length;                 /* số line trong port */
+  const char* chip;             /* chip store lines of port */
+  const unsigned int* offsets;  /* line offset bit table */
+  uint8 length;                 /* line number in port */
 } Dio_PortCfgType;
 
 typedef struct {

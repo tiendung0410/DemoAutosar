@@ -1,18 +1,18 @@
 #include "Dio_Cfg.h"
 
-/* Button1, Button2 là input; Led1 là output */
+/* Dio Channel configuration */
 static const Dio_ChannelCfgType kChannels[] = {
   /* ChannelId 0: Button1  */ { "gpiochip1", 28, DIO_DIRECTION_IN  },  /* P9_12 -> gpop 60  */
   /* ChannelId 1: Button2  */ { "gpiochip1", 16, DIO_DIRECTION_IN  },  /* P9_15 -> gpio 48  */
 };
 
-/* Port0 gom 3 line ở trên theo thứ tự bit [2:0] = {Led1, Button2, Button1} */
+/* Port configuration */
 static const unsigned int kPort0_Offsets[] = { 60, 48 };
 static const Dio_PortCfgType kPorts[] = {
-  { "gpiochip0", kPort0_Offsets, 2 }  /* chú ý: Led1 ở chip1 trong ví dụ này -> nếu trộn chip, tách ra 2 port là thực tế hơn */
+  { "gpiochip1", kPort0_Offsets, 2 }  
 };
 
-/* ChannelGroup ví dụ: nhóm 2 button (bit0..1) trên Port0 */
+/* ChannelGroup configuration */
 static const Dio_ChannelGroupType kGroups[] = {
   { .mask = 0x2u, .offset = 0u, .port = 0u },
 };

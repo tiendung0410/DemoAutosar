@@ -1,8 +1,8 @@
-#define _POSIX_C_SOURCE 199309L  // << cần khai báo dòng này trước include
+#define _POSIX_C_SOURCE 199309L 
 
 #include <time.h>
 #include <signal.h>
-#include <pthread.h>   // nếu dùng SIGEV_THREAD
+#include <pthread.h>   
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +13,7 @@ typedef struct {
     timer_t                 posixTimer;
     struct timespec         startTs;
     Gpt_ValueType           programmedTicks;
-    uint64_t                programmedNs;   /* thời gian mục tiêu ns */
+    uint64_t                programmedNs;   
     boolean                 running;
     boolean                 notifyEnabled;
     pthread_mutex_t         lock;
@@ -23,7 +23,7 @@ typedef struct {
 static struct {
     const Gpt_ConfigType* cfg;
     Gpt_ModeType          mode;
-    Gpt_ChCtx*            ch;   /* mảng context có size = numOfChannels */
+    Gpt_ChCtx*            ch;   
 } Gpt_Drv = {0};
 
 static uint64_t ts_to_ns(const struct timespec* ts) {
@@ -33,19 +33,19 @@ static void ns_to_itimerspec(uint64_t ns, struct itimerspec* its, int periodic) 
     its->it_value.tv_sec  = ns / 1000000000ULL;
     its->it_value.tv_nsec = ns % 1000000000ULL;
     if (periodic) {
-        its->it_interval = its->it_value;  /* period = value */
+        its->it_interval = its->it_value; 
     } else {
         its->it_interval.tv_sec  = 0;
         its->it_interval.tv_nsec = 0;
     }
 }
 
-/* Callback thread của POSIX timer → gọi notification ứng dụng */
+/* Callback thread POSIX timer → call app notification */
 static void gpt_timer_sigev_thread(union sigval sv) {
     Gpt_ChannelType chId = (Gpt_ChannelType)(uintptr_t)sv.sival_ptr;
     Gpt_ChCtx* c = &Gpt_Drv.ch[chId];
 
-    /* One-shot → running = FALSE sau khi fired */
+    /* One-shot → running = FALSE after fired */
     pthread_mutex_lock(&c->lock);
     if (c->cfg->channelMode == GPT_CH_MODE_ONESHOT) {
         c->running = FALSE;
@@ -60,7 +60,6 @@ static void gpt_timer_sigev_thread(union sigval sv) {
 }
 
 static uint64_t ticks_to_ns(const Gpt_ChannelConfigType* cfg, Gpt_ValueType ticks) {
-    /* ns = ticks * (1e9 / freq) ; tránh tràn: nhân trước rồi chia ULL */
     uint64_t num = (uint64_t)ticks * 1000000000ULL;
     return num / cfg->tickFrequencyHz;
 }
@@ -85,7 +84,7 @@ void Gpt_Init(const Gpt_ConfigType* ConfigPtr) {
         sev.sigev_value.sival_ptr = (void*)(uintptr_t)c->cfg->channelId;
 
         if (timer_create(CLOCK_MONOTONIC, &sev, &c->posixTimer) != 0) {
-            /* lỗi tạo timer → vẫn cho phép init tiếp các channel khác */
+            printf("[GPT] Error creating timer\n");
         }
         c->notifyEnabled = TRUE;  /* default bật notify */
     }
@@ -155,11 +154,10 @@ Gpt_ValueType Gpt_GetTimeElapsed(Gpt_ChannelType Channel) {
     clock_gettime(CLOCK_MONOTONIC, &now);
     uint64_t elapsedNs = ts_to_ns(&now) - ts_to_ns(&c->startTs);
 
-    /* Giới hạn về programmedNs nếu one-shot */
+    /* Limit to programmedNs if one-shot */
     if (c->cfg->channelMode == GPT_CH_MODE_ONESHOT && elapsedNs > c->programmedNs) {
         elapsedNs = c->programmedNs;
     }
-    /* ticks = elapsedNs * freq / 1e9 */
     uint64_t ticks = (elapsedNs * c->cfg->tickFrequencyHz) / 1000000000ULL;
     if (ticks > c->cfg->tickMaxValue) ticks = c->cfg->tickMaxValue;
     pthread_mutex_unlock(&c->lock);
@@ -203,7 +201,7 @@ void Gpt_DisableNotification(Gpt_ChannelType Channel) {
 }
 
 void Gpt_SetMode(Gpt_ModeType Mode) {
-    /* Ở Linux user-space không có low-power native → lưu lại cho đúng API */
+    /* Linux user-space dont support low-power native → save to follow AUTOSAR Standard API */
     Gpt_Drv.mode = Mode;
 }
 

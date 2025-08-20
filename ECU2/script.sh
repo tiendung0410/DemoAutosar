@@ -1,4 +1,4 @@
-# Makefile - Add your build rules here
+#Cau hinh CAN cho ECU1 truoc khi chay
 
 sudo config-pin P9_19 can
 sudo config-pin P9_20 can

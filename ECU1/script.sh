@@ -1,3 +1,5 @@
+#Cau hinh CAN cho ECU1 truoc khi chay
+
 sudo config-pin P9_24 can
 sudo config-pin P9_26 can
 

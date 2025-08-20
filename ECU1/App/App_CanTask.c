@@ -1,5 +1,5 @@
 #include "App_CanTask.h"
-#include "Rte_Can.h"   // Gọi RTE interface (dưới là Rte_Read)
+#include "Rte_Can.h"   
 #include <stdio.h>
 
 void App_CanTask_Init(void) {
@@ -9,11 +9,11 @@ void App_CanTask_Init(void) {
 void App_CanTask_Run(void) {
     ButtonStatusInfoType buttonInfo;
     
-    //Reading button status from App_ButtonTask through RTE
+    /* Reading button info from App_ButtonTask through RTE */
     Rte_Read_RP_ButtonStatusInfo_ButtonStatus(&buttonInfo);
     printf("App_CanTask: ButtonState=%d, ButtonCount=%d\n", 
            buttonInfo.ButtonState, buttonInfo.ButtonCount);
-    // Send button status to COM layer
+    /* Send button info to COM */
     Rte_Write_SigButtonStatusInfo(buttonInfo);
 
 }

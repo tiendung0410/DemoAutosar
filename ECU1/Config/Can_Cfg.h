@@ -10,7 +10,7 @@
 typedef uint8 Can_HwHandleType;
 
 typedef struct {
-    char ifName[16];         // Interface name (e.g. "can0")
+    char ifName[16];     
     uint8 ControllerId;
     uint32 Baudrate;
 } Can_ControllerConfigType;

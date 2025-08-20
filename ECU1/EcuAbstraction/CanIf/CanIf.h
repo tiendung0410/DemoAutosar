@@ -3,11 +3,11 @@
 
 #include "CanIf_Cfg.h"
 
-// Định nghĩa callback type
+// Callback type definitions
 typedef void (*CanIf_RxIndicationCbkType)(CanIf_PduIdType pduId, const uint8* SduPtr, uint8 length);
 typedef void (*CanIf_TxConfirmationCbkType)(CanIf_PduIdType pduId);
 
-// Đăng ký callback
+// Call back registration functions
 void CanIf_RegisterRxIndicationCallback(CanIf_RxIndicationCbkType cb);
 void CanIf_RegisterTxConfirmationCallback(CanIf_TxConfirmationCbkType cb);
 

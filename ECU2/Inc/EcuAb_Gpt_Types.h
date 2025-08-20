@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef uint8_t  EcuAb_Gpt_ChannelType;    /* kênh logic ở ECUA */
+typedef uint8_t  EcuAb_Gpt_ChannelType;  
 typedef uint32_t EcuAb_Gpt_TicksType;
 typedef void   (*EcuAb_Gpt_AppCbkType)(void);
 

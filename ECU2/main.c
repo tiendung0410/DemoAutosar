@@ -1,3 +1,4 @@
+#include "OS.h"
 #include <stdio.h>
 #include <unistd.h>  // usleep
 #include "Can.h"
@@ -11,10 +12,8 @@
 #include "App_CanTask.h"
 #include "App_LedTask.h"
 
-int main(void)
+void System_Init(void)
 {
-    printf("===== ECU2 Startup =====\n");
-
     // MCAL & BSW INIT
     Dio_Init(&Dio_Config);        // GPIO
     Can_Init(&Can_Config);        // CAN Driver
@@ -30,23 +29,39 @@ int main(void)
     // Application Layer Init
     App_Can_Init();
     App_Led_Init();
+}
 
-    printf("===== ECU2 Init Done. Entering Main Loop =====\n");
-
-    // Main loop giả lập scheduler, mỗi 10ms
+// Task cyclic 10ms
+void CyclicTask10ms(void* arg)
+{
+    printf("CyclicTask10ms running...\n");
+    (void)arg;
     while (1) {
-        // Poll BSW nếu cần (ví dụ nếu dùng SocketCAN hoặc không interrupt)
         Can_MainFunction_Read();
-        Can_MainFunction_Write();
-        // Gpt có thể cần poll nếu không dùng hardware interrupt
-        // Gpt_MainFunction();
 
-        // Gọi App task định kỳ
-        App_Can_Run();    // Nhận data từ CAN, forwarding struct
-        App_Led_Run();    // Nháy LED theo ButtonCount
+        App_Can_Run();    // Receive CAN data, forwarding struct
+        App_Led_Run();    // Blink LED base on Button info
 
-        // Tùy hệ điều hành, sleep ngắn để giảm CPU (ở đây 10ms)
-        usleep(10 * 1000);
+        Os_Sleep(100); // period 100ms
+    }
+}
+
+int main(void)
+{
+  
+    // Init system
+    System_Init();
+
+    // OS task init
+    OsTaskType cyclic10msTask;
+
+    Os_CreateTask(&cyclic10msTask, CyclicTask10ms, NULL, 10, "Cyclic10msTask");
+    // Start  task
+    Os_StartTask(&cyclic10msTask);
+    printf("===== ECU2 Init Done =====\n");
+
+    while (1) {
+        Os_Sleep(1000); 
     }
 
     return 0;

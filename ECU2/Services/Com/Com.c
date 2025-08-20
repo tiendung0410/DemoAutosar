@@ -3,18 +3,25 @@
 #include <string.h>
 #include <stdio.h>
 
-// Lưu buffer PDU (data gửi/nhận)
+// Internal buffer to hold PDU data
 static uint8 Com_PduBuffer[COM_MAX_PDU][8];
 
-// Khi nhận PDU qua PduR, giải unpack về signal
+// When receiving PDU via PduR, unpack to signal
 void Com_RxIndication(Com_PduIdType pduId, const uint8* SduDataPtr, uint8 length)
 {
     if (pduId >= COM_MAX_PDU) return;
     memcpy(Com_PduBuffer[pduId], SduDataPtr, length);
 
+    // Log received signal for debugging
+    for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
+        if (Com_SignalConfig[i].pduId == pduId) {
+            uint8 value = Com_PduBuffer[pduId][Com_SignalConfig[i].startBit / 8];
+            printf("[Com] RX SignalId=%d, Value=%d\n", Com_SignalConfig[i].signalId, value);
+        }
+    }
 }
 
-// Gửi signal từ App xuống CAN
+// Send signal from App to CAN
 Std_ReturnType Com_SendSignal(Com_SignalIdType signalId, const void* SignalDataPtr)
 {
     for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
@@ -29,12 +36,12 @@ Std_ReturnType Com_SendSignal(Com_SignalIdType signalId, const void* SignalDataP
             memcpy(&Com_PduBuffer[pduId][byteIdx], (uint8*)SignalDataPtr, byteCount);
 
 
-            // Chuẩn bị PDU gửi xuống PduR/CanIf
+            //Prepare PDU for transmission
             CanIf_TxPduInfoType txPdu;
-            txPdu.CanId = 0; // Không cần dùng ở đây
+            txPdu.CanId = 0; // actually not used here
             txPdu.CanDlc = Com_PduConfig[pduId].length;
             txPdu.Sdu = Com_PduBuffer[pduId];
-            txPdu.Hth = 0; // mapping config
+            txPdu.Hth = 0; 
             txPdu.PduId = pduId;
 
             return PduR_CanIfTransmit(pduId, &txPdu);
@@ -43,7 +50,7 @@ Std_ReturnType Com_SendSignal(Com_SignalIdType signalId, const void* SignalDataP
     return E_NOT_OK;
 }
 
-// Nhận signal từ App
+// Receive signal from App
 Std_ReturnType Com_ReceiveSignal(Com_SignalIdType signalId, void* SignalDataPtr)
 {
     for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
@@ -62,7 +69,7 @@ Std_ReturnType Com_ReceiveSignal(Com_SignalIdType signalId, void* SignalDataPtr)
     return E_NOT_OK;
 }
 
-// Xác nhận gửi xong PDU
+// Log transmission confirmation
 void Com_TxConfirmation(Com_PduIdType pduId)
 {
     printf("[Com] TX Confirmation for PDU=%d\n", pduId);
@@ -72,7 +79,7 @@ void Com_Init(void)
 {
     memset(Com_PduBuffer, 0, sizeof(Com_PduBuffer));
 
-    // Đăng ký callback lên PduR
+    // Register PduR Callbacks 
     PduR_RegisterRxIndicationCallback(Com_RxIndication);
     PduR_RegisterTxConfirmationCallback(Com_TxConfirmation);
 }

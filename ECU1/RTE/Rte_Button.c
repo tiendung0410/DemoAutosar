@@ -12,7 +12,7 @@ Std_ReturnType Rte_Write_PP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* 
         return E_OK;
     }
     else {
-        return E_NOT_OK; // Trả về lỗi nếu con trỏ NULL
+        return E_NOT_OK; 
     }
 }
 
@@ -24,7 +24,7 @@ Std_ReturnType Rte_Read_RP_AbButtonStateInfo_AbButtonState(uint8* state) {
         return E_OK;
     }
     else {
-        return E_NOT_OK; // Trả về lỗi nếu con trỏ NULL
+        return E_NOT_OK; 
     }
 }
 Std_ReturnType Rte_Read_RP_AbButtonCountInfo_AbButtonFreq(uint8* freq) {
@@ -33,6 +33,6 @@ Std_ReturnType Rte_Read_RP_AbButtonCountInfo_AbButtonFreq(uint8* freq) {
         return E_OK;
     }
     else {
-        return E_NOT_OK; // Trả về lỗi nếu con trỏ NULL
+        return E_NOT_OK; 
     }
 }

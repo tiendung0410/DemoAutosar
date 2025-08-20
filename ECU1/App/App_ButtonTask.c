@@ -1,10 +1,10 @@
 #include "App_ButtonTask.h"
-#include "Rte_Types.h"         // Include file RTE chứa các kiểu dữ liệu
-#include "Rte_Button.h"        // Include file RTE chứa API struct
+#include "Rte_Types.h"      
+#include "Rte_Button.h"        
 #include <stdio.h>
 
 static uint8 prevSystem = 0;
-static uint8 systemState = 0;  // 0 = OFF, 1 = ON
+static uint8 systemState = 0; 
 static uint8 prevFreq = 0;
 static uint8 freqCount = 0;
 
@@ -18,12 +18,11 @@ void App_ButtonTask_Init(void) {
 
 void App_ButtonTask_Run(void) {
     uint8 systemNow = 0, freqNow = 0;
-
-    // Đọc trạng thái các nút (từ IO abstraction hoặc driver)
+    /* Read Button Info from RTE */
     Rte_Read_RP_AbButtonStateInfo_AbButtonState(&systemNow);
     Rte_Read_RP_AbButtonCountInfo_AbButtonFreq(&freqNow);
 
-    // Toggle ON/OFF
+    /* State Button pressed */ 
     if (systemNow && !prevSystem) {
         systemState ^= 1;
         if(!systemState)
@@ -33,14 +32,14 @@ void App_ButtonTask_Run(void) {
     }
     prevSystem = systemNow;
 
-    // Đếm số lần nhấn freq button
+    /* Freq Button pressed */
     if (freqNow && !prevFreq) {
         freqCount++;
         printf("Freq Button pressed, count=%d\n", freqCount);
     }
     prevFreq = freqNow;
 
-    // Đóng gói struct và GỬI QUA RTE (1 port duy nhất)
+    /* Send Button Info to AppCan SWC */
     ButtonStatusInfoType buttonInfo;
     buttonInfo.ButtonState = systemState;
     buttonInfo.ButtonCount = freqCount;

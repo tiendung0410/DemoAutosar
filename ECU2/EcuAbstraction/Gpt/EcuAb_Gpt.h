@@ -4,7 +4,7 @@
 #include "EcuAb_Gpt_Types.h"
 
 /* ==== Lifecycle ==== */
-void EcuAb_Gpt_Init(void);        /* Gọi cả Gpt_Init(...) bên dưới */
+void EcuAb_Gpt_Init(void);        
 void EcuAb_Gpt_DeInit(void);
 
 /* ==== Control ==== */
@@ -16,12 +16,11 @@ EcuAb_Gpt_TicksType EcuAb_Gpt_GetElapsed(EcuAb_Gpt_ChannelType ch);
 EcuAb_Gpt_TicksType EcuAb_Gpt_GetRemaining(EcuAb_Gpt_ChannelType ch);
 
 /* ==== Notification ==== */
-/* App đăng ký callback theo kênh logic; ECUA sẽ bật notification ở MCAL luôn */
 int  EcuAb_Gpt_RegisterCallback(EcuAb_Gpt_ChannelType ch, EcuAb_Gpt_AppCbkType cb);
 void EcuAb_Gpt_EnableNotification(EcuAb_Gpt_ChannelType ch);
 void EcuAb_Gpt_DisableNotification(EcuAb_Gpt_ChannelType ch);
 
-/* ==== Mode (tuỳ nhu cầu) ==== */
-void EcuAb_Gpt_SetMode(EcuAb_Gpt_ModeType mode);  /* ảnh hưởng semantic ECUA; MCAL vẫn dùng config kênh */
+/* ==== Mode  ==== */
+void EcuAb_Gpt_SetMode(EcuAb_Gpt_ModeType mode);  
 
 #endif /* ECUAB_GPT_H */

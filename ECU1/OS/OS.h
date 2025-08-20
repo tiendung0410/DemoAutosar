@@ -12,7 +12,6 @@ typedef struct {
     void* arg;
     int priority;
     char name[32];
-    int started;
 } OsTaskType;
 
 int Os_CreateTask(OsTaskType* tcb, TaskEntryType entry, void* arg, int priority, const char* name);

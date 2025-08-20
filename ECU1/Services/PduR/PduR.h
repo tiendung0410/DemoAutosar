@@ -4,20 +4,20 @@
 #include "PduR_Cfg.h"
 #include "CanIf_Types.h"
 
-// Định nghĩa callback lên App/COM
+// Callback to COM definition
 typedef void (*PduR_RxIndicationCbkType)(uint8 pduId, const uint8* SduPtr, uint8 length);
 typedef void (*PduR_TxConfirmationCbkType)(uint8 pduId);
 
-// Đăng ký callback
+// Callback register
 void PduR_RegisterRxIndicationCallback(PduR_RxIndicationCbkType cb);
 void PduR_RegisterTxConfirmationCallback(PduR_TxConfirmationCbkType cb);
 
 void PduR_Init(void);
 
-// App/COM gọi để gửi (giả sử pduId mapping luôn với CanIf)
+// COM call to send 
 Std_ReturnType PduR_CanIfTransmit(uint32 pduId, const CanIf_TxPduInfoType* PduInfoPtr);
 
-// Callback của CanIf gọi khi nhận/gửi xong
+// CanIf's Callback call when complete receive/transmit
 void PduR_CanIfRxIndication(uint32 pduId, const uint8* SduPtr, uint8 length);
 void PduR_CanIfTxConfirmation(uint32 pduId);
 

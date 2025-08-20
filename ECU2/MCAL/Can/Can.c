@@ -73,7 +73,6 @@ Std_ReturnType Can_SetControllerMode(uint8 Controller, Can_ControllerStateType T
 {
     if (Can_ConfigPtr == NULL || Controller >= Can_ConfigPtr->NumControllers) return E_NOT_OK;
 
-    /* Đơn giản chỉ update trạng thái, thực tế có thể dùng ioctl để up/down interface nếu cần */
     Can_ControllerState[Controller] = Transition;
     return E_OK;
 }
@@ -99,17 +98,17 @@ Std_ReturnType Can_Write(Can_HwHandleType Hth, const Can_PduType* PduInfo)
 
 void Can_MainFunction_Write(void)
 {
-    /* Không cần xử lý đặc biệt cho SocketCAN, nếu cần confirm thì add queue/callback */
+    /* Not use in small demo */
 }
 
 void Can_MainFunction_Read(void)
-{
+{   
     struct can_frame frame;
     for (uint8 i = 0; i < CAN_MAX_CONTROLLER; i++) {
         if (canSocket[i] < 0) continue;
         int nbytes = read(canSocket[i], &frame, sizeof(frame));
         if (nbytes > 0) {
-            // Gọi callback lên CanIf (hoặc nếu chưa có, tạm thời print ra)
+            // Call callback registered in CanIf
             CanIf_RxIndication(i, frame.can_id, frame.can_dlc, frame.data);
         }
     }
@@ -118,12 +117,12 @@ void Can_MainFunction_Read(void)
 
 void Can_MainFunction_BusOff(void)
 {
-    /* Có thể kiểm tra trạng thái bus nếu cần bằng netlink hoặc tools khác */
+    /* Not use in small demo */
 }
 
 void Can_MainFunction_Wakeup(void)
 {
-    /* Không dùng cho Linux CAN */
+    /* Not supported by Linux Can Interface */
 }
 
 void Can_GetVersionInfo(Std_VersionInfoType* versioninfo)
