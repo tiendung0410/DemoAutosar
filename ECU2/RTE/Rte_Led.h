@@ -15,7 +15,7 @@ Std_ReturnType Rte_Read_RP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* v
 Std_ReturnType Rte_Call_PP_LedControl_LedSet(IoHwAb_LedIdType id, uint8 level);
 
 // API sử dụng GPT cho AppLed
-void Rte_Call_PP_GptControl_GptStartMs(EcuAb_Gpt_ChannelType ch, uint32_t ms);
+void Rte_Call_PP_GptControl_GptStartTicks(EcuAb_Gpt_ChannelType ch, uint32_t ticks);
 void Rte_Call_PP_GptControl_GptStop(EcuAb_Gpt_ChannelType ch);
 int  Rte_Call_PP_GptControl_GptRegisterCb(EcuAb_Gpt_ChannelType ch, EcuAb_Gpt_AppCbkType cb);
 

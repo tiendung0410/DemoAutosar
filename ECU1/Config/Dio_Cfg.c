@@ -2,8 +2,8 @@
 
 /* Button1, Button2 là input; Led1 là output */
 static const Dio_ChannelCfgType kChannels[] = {
-  /* ChannelId 0: Button1  */ { "gpiochip0", 60, DIO_DIRECTION_IN  },  /* P9_12 -> offset 60  */
-  /* ChannelId 1: Button2  */ { "gpiochip0", 48, DIO_DIRECTION_IN  },  /* P9_15 -> offset 48  */
+  /* ChannelId 0: Button1  */ { "gpiochip1", 28, DIO_DIRECTION_IN  },  /* P9_12 -> gpop 60  */
+  /* ChannelId 1: Button2  */ { "gpiochip1", 16, DIO_DIRECTION_IN  },  /* P9_15 -> gpio 48  */
 };
 
 /* Port0 gom 3 line ở trên theo thứ tự bit [2:0] = {Led1, Button2, Button1} */

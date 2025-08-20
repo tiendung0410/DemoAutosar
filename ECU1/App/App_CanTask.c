@@ -8,9 +8,12 @@ void App_CanTask_Init(void) {
 
 void App_CanTask_Run(void) {
     ButtonStatusInfoType buttonInfo;
+    
     //Reading button status from App_ButtonTask through RTE
     Rte_Read_RP_ButtonStatusInfo_ButtonStatus(&buttonInfo);
-
+    printf("App_CanTask: ButtonState=%d, ButtonCount=%d\n", 
+           buttonInfo.ButtonState, buttonInfo.ButtonCount);
     // Send button status to COM layer
     Rte_Write_SigButtonStatusInfo(buttonInfo);
+
 }

@@ -7,6 +7,7 @@
 #include "IoHwAb.h"
 #include "CanIf.h"
 
+
 // Nếu có config/init riêng cho mỗi module, thêm vào đây
 void System_Init(void)
 {
@@ -28,9 +29,10 @@ void CyclicTask10ms(void* arg)
 {
     (void)arg;
     while (1) {
-        App_ButtonTask_Run();
-        App_CanTask_Run();
-        Os_Sleep(10); // period 10ms
+        // App_ButtonTask_Run();
+        // App_CanTask_Run();
+        // printf("LOG\n");
+        // Os_Sleep(10); // period 10ms
     }
 }
 
@@ -50,7 +52,12 @@ int main(void)
 
     // Main idle loop
     while (1) {
+        App_ButtonTask_Run();
+        App_CanTask_Run();
+
         Os_Sleep(1000); // sleep lâu, chỉ giữ chương trình không thoát
     }
     return 0;
 }
+
+

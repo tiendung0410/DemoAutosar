@@ -27,8 +27,14 @@ Std_ReturnType Com_SendSignal(Com_SignalIdType signalId, const void* SignalDataP
     for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
         if (Com_SignalConfig[i].signalId == signalId) {
             Com_PduIdType pduId = Com_SignalConfig[i].pduId;
+
+            uint8 byteCount = Com_SignalConfig[i].bitLength / 8;
+            if( byteCount > sizeof(Com_PduBuffer[pduId])) {
+                return E_NOT_OK; 
+            }
             uint8 byteIdx = Com_SignalConfig[i].startBit / 8;
-            Com_PduBuffer[pduId][byteIdx] = *((uint8*)SignalDataPtr);
+            memcpy(&Com_PduBuffer[pduId][byteIdx], (uint8*)SignalDataPtr, byteCount);
+
 
             // Chuẩn bị PDU gửi xuống PduR/CanIf
             CanIf_TxPduInfoType txPdu;

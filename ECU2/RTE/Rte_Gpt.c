@@ -18,14 +18,7 @@ void Rte_Call_RP_Gpt_StartTicks(uint8_t logicCh, uint32_t ticks)
 {
     EcuAb_Gpt_StartTicks(logicCh, ticks);
 }
-void Rte_Call_RP_Gpt_StartMs(uint8_t logicCh, uint32_t ms)
-{
-    EcuAb_Gpt_StartMs(logicCh, ms);
-}
-void Rte_Call_RP_Gpt_StartUs(uint8_t logicCh, uint32_t us)
-{
-    EcuAb_Gpt_StartUs(logicCh, us);
-}
+
 void Rte_Call_RP_Gpt_Stop(uint8_t logicCh)
 {
     EcuAb_Gpt_Stop(logicCh);

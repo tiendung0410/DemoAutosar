@@ -17,9 +17,9 @@ Std_ReturnType Rte_Call_PP_LedControl_LedSet(IoHwAb_LedIdType id, uint8 level)
 }
 
 // ==== GPT interface for AppLed ====
-void Rte_Call_PP_GptControl_GptStartMs(EcuAb_Gpt_ChannelType ch, uint32_t ms)
+void Rte_Call_PP_GptControl_GptStartTicks(EcuAb_Gpt_ChannelType ch, uint32_t ticks)
 {
-    EcuAb_Gpt_StartMs(ch, ms);
+    EcuAb_Gpt_StartTicks(ch, ticks);
 }
 void Rte_Call_PP_GptControl_GptStop(EcuAb_Gpt_ChannelType ch)
 {

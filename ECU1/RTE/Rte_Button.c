@@ -20,6 +20,7 @@ Std_ReturnType Rte_Write_PP_ButtonStatusInfo_ButtonStatus(ButtonStatusInfoType* 
 Std_ReturnType Rte_Read_RP_AbButtonStateInfo_AbButtonState(uint8* state) {
     if(state) {
         IoHwAb_Button_Read(IOHWAB_BUTTON_SYSTEM, state);
+        printf("state=%d\n", *state);
         return E_OK;
     }
     else {

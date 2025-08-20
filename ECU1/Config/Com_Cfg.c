@@ -2,7 +2,7 @@
 
 // Mapping từng signalId với vị trí trong PDU 0
 const Com_SignalCfgType Com_SignalConfig[COM_MAX_SIGNALS] = {
-    { .signalId = 0, .pduId = 0, .startBit = 0, .bitLength = 8 },  // ButtonState
+    { .signalId = 0, .pduId = 0, .startBit = 0, .bitLength = 16 },  // ButtonState
 };
 
 // PDU 0:  tổng dài 2 byte (16 bit)

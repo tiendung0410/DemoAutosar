@@ -14,6 +14,6 @@ Std_ReturnType IoHwAb_Button_Read(IoHwAb_ButtonIdType id, uint8* level) {
 
     Dio_ChannelType ch = IoHwAb_ButtonConfig[id].DioChannelId;
     *level = Dio_ReadChannel(ch);
-
+    printf("level=%d\n", *level);
     return E_OK;
 }

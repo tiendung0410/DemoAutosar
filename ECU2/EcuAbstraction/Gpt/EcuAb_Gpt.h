@@ -9,8 +9,6 @@ void EcuAb_Gpt_DeInit(void);
 
 /* ==== Control ==== */
 void EcuAb_Gpt_StartTicks(EcuAb_Gpt_ChannelType ch, EcuAb_Gpt_TicksType ticks);
-void EcuAb_Gpt_StartMs(EcuAb_Gpt_ChannelType ch, uint32_t ms);
-void EcuAb_Gpt_StartUs(EcuAb_Gpt_ChannelType ch, uint32_t us);
 void EcuAb_Gpt_Stop(EcuAb_Gpt_ChannelType ch);
 
 /* ==== Query ==== */

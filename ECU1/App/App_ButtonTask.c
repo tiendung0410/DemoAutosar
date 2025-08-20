@@ -30,7 +30,6 @@ void App_ButtonTask_Run(void) {
         {
             freqCount=0;
         }
-        printf("System State toggled: %s\n", systemState ? "ON" : "OFF");
     }
     prevSystem = systemNow;
 
@@ -45,7 +44,6 @@ void App_ButtonTask_Run(void) {
     ButtonStatusInfoType buttonInfo;
     buttonInfo.ButtonState = systemState;
     buttonInfo.ButtonCount = freqCount;
-
     Rte_Write_PP_ButtonStatusInfo_ButtonStatus(&buttonInfo);
 
     printf("App: SystemButton=%d, FreqButton_Count=%d\n", systemState, freqCount);

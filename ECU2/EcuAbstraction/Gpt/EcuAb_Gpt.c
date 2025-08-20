@@ -8,8 +8,8 @@
 /* --------- MAP LOGIC->MCAL (khớp với Gpt_Config của bạn) ---------- */
 const EcuAb_Gpt_ChannelMapType EcuAb_Gpt_ChannelMap[ECUAB_GPT_MAX_CHANNELS] = {
     /* logicCh, mcalCh, tickHz,   defaultMode */
-    { 0u,       0u,     1000000u, ECUAB_GPT_CONTINUOUS }, /* GPT0 periodic 1us tick */
-    { 1u,       1u,     1000000u, ECUAB_GPT_ONESHOT    }, /* GPT1 one-shot 1us tick */
+    { 0u,       0u,     1000u, ECUAB_GPT_CONTINUOUS }, /* GPT0 periodic 1us tick */
+    { 1u,       1u,     1000u, ECUAB_GPT_ONESHOT    }, /* GPT1 one-shot 1us tick */
 };
 
 /* ---------- STATE ECUA ---------- */
@@ -25,15 +25,6 @@ static inline const EcuAb_Gpt_ChannelMapType* map_of(EcuAb_Gpt_ChannelType ch)
     return NULL;
 }
 
-/* Convert helpers */
-static inline EcuAb_Gpt_TicksType ms_to_ticks(uint32_t ms, uint32_t hz)
-{   /* ticks = ms * 1e-3 * hz = ms * (hz/1000) */
-    return (EcuAb_Gpt_TicksType)((uint64_t)ms * (hz/1000u));
-}
-static inline EcuAb_Gpt_TicksType us_to_ticks(uint32_t us, uint32_t hz)
-{   /* ticks = us * 1e-6 * hz = us * (hz/1e6) ; với hz=1MHz => ticks = us */
-    return (EcuAb_Gpt_TicksType)((uint64_t)us * (hz/1000000u));
-}
 
 /* ========= ECUA API ========= */
 void EcuAb_Gpt_Init(void)
@@ -66,19 +57,6 @@ void EcuAb_Gpt_StartTicks(EcuAb_Gpt_ChannelType ch, EcuAb_Gpt_TicksType ticks)
     Gpt_StartTimer(m->mcalCh, (Gpt_ValueType)ticks);
 }
 
-void EcuAb_Gpt_StartMs(EcuAb_Gpt_ChannelType ch, uint32_t ms)
-{
-    const EcuAb_Gpt_ChannelMapType* m = map_of(ch);
-    if (!m) return;
-    EcuAb_Gpt_StartTicks(ch, ms_to_ticks(ms, m->tickHz));
-}
-
-void EcuAb_Gpt_StartUs(EcuAb_Gpt_ChannelType ch, uint32_t us)
-{
-    const EcuAb_Gpt_ChannelMapType* m = map_of(ch);
-    if (!m) return;
-    EcuAb_Gpt_StartTicks(ch, us_to_ticks(us, m->tickHz));
-}
 
 void EcuAb_Gpt_Stop(EcuAb_Gpt_ChannelType ch)
 {

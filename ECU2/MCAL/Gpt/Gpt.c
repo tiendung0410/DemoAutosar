@@ -26,10 +26,10 @@ static struct {
     Gpt_ChCtx*            ch;   /* mảng context có size = numOfChannels */
 } Gpt_Drv = {0};
 
-static inline uint64_t ts_to_ns(const struct timespec* ts) {
+static uint64_t ts_to_ns(const struct timespec* ts) {
     return (uint64_t)ts->tv_sec * 1000000000ULL + (uint64_t)ts->tv_nsec;
 }
-static inline void ns_to_itimerspec(uint64_t ns, struct itimerspec* its, int periodic) {
+static void ns_to_itimerspec(uint64_t ns, struct itimerspec* its, int periodic) {
     its->it_value.tv_sec  = ns / 1000000000ULL;
     its->it_value.tv_nsec = ns % 1000000000ULL;
     if (periodic) {
@@ -119,12 +119,15 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value) {
 
     clock_gettime(CLOCK_MONOTONIC, &c->startTs);
     c->programmedTicks = Value;
-    c->programmedNs    = ticks_to_ns(c->cfg, Value);
+    c->programmedNs    = ticks_to_ns(c->cfg, c->programmedTicks);
 
     struct itimerspec its;
     ns_to_itimerspec(c->programmedNs, &its, c->cfg->channelMode == GPT_CH_MODE_CONTINUOUS);
-    timer_settime(c->posixTimer, 0, &its, NULL);
+    if (timer_settime(c->posixTimer, 0, &its, NULL) != 0) {
+        printf("[GPT] Error setting timer for channel %d: %s\n", Channel, strerror(errno));
+    }
 
+    
     c->running = TRUE;
     pthread_mutex_unlock(&c->lock);
 }

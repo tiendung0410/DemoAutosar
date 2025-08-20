@@ -38,7 +38,6 @@ int main(void)
         // Poll BSW nếu cần (ví dụ nếu dùng SocketCAN hoặc không interrupt)
         Can_MainFunction_Read();
         Can_MainFunction_Write();
-
         // Gpt có thể cần poll nếu không dùng hardware interrupt
         // Gpt_MainFunction();
 

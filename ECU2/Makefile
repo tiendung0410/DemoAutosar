@@ -14,7 +14,7 @@ SRCS += main.c
 OBJS := $(patsubst %.c,Out/%.o,$(SRCS))
 
 # Output binary
-TARGET := Out/autosar_ecu1.elf
+TARGET := Out/autosar_ecu2.elf
 
 # Default rule
 all: prepare $(TARGET)

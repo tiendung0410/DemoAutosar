@@ -12,13 +12,6 @@ void Com_RxIndication(Com_PduIdType pduId, const uint8* SduDataPtr, uint8 length
     if (pduId >= COM_MAX_PDU) return;
     memcpy(Com_PduBuffer[pduId], SduDataPtr, length);
 
-    // (Tối giản) in ra signal
-    for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
-        if (Com_SignalConfig[i].pduId == pduId) {
-            uint8 value = Com_PduBuffer[pduId][Com_SignalConfig[i].startBit / 8];
-            printf("[Com] RX SignalId=%d, Value=%d\n", Com_SignalConfig[i].signalId, value);
-        }
-    }
 }
 
 // Gửi signal từ App xuống CAN
@@ -27,8 +20,14 @@ Std_ReturnType Com_SendSignal(Com_SignalIdType signalId, const void* SignalDataP
     for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
         if (Com_SignalConfig[i].signalId == signalId) {
             Com_PduIdType pduId = Com_SignalConfig[i].pduId;
+
+            uint8 byteCount = Com_SignalConfig[i].bitLength / 8;
+            if( byteCount > sizeof(Com_PduBuffer[pduId])) {
+                return E_NOT_OK; 
+            }
             uint8 byteIdx = Com_SignalConfig[i].startBit / 8;
-            Com_PduBuffer[pduId][byteIdx] = *((uint8*)SignalDataPtr);
+            memcpy(&Com_PduBuffer[pduId][byteIdx], (uint8*)SignalDataPtr, byteCount);
+
 
             // Chuẩn bị PDU gửi xuống PduR/CanIf
             CanIf_TxPduInfoType txPdu;
@@ -50,8 +49,13 @@ Std_ReturnType Com_ReceiveSignal(Com_SignalIdType signalId, void* SignalDataPtr)
     for (int i = 0; i < COM_MAX_SIGNALS; ++i) {
         if (Com_SignalConfig[i].signalId == signalId) {
             Com_PduIdType pduId = Com_SignalConfig[i].pduId;
+            uint8 byteCount = Com_SignalConfig[i].bitLength / 8;
+            if( byteCount > sizeof(Com_PduBuffer[pduId])) {
+                return E_NOT_OK; 
+            }
             uint8 byteIdx = Com_SignalConfig[i].startBit / 8;
-            *((uint8*)SignalDataPtr) = Com_PduBuffer[pduId][byteIdx];
+            memcpy((uint8*)SignalDataPtr, &Com_PduBuffer[pduId][byteIdx], byteCount);
+
             return E_OK;
         }
     }

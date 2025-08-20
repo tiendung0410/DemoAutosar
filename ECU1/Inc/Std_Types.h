@@ -1,6 +1,6 @@
 #ifndef STD_TYPES_H_
 #define STD_TYPES_H_
-
+#include "stdio.h"
 /* AUTOSAR version and vendor (optional) */
 #define STD_TYPES_VENDOR_ID      (0xFFFFu)
 #define STD_TYPES_MODULE_ID      (197u)
